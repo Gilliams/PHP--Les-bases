@@ -19,7 +19,7 @@ require_once "functions.php";
 $title = "Profil";
 ?>
 <?php if ($age >= 18) : ?>
-    <h2>Amuse toi petit fumier</h2>
+    <h2>Amuse toi</h2>
     <iframe src="https://giphy.com/embed/wrBURfbZmqqXu" width="480" height="319" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 <?php elseif ($age !== null && $age < 18) : ?>
     <iframe src="https://giphy.com/embed/cQtlhD48EG0SY" width="480" height="456" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
