@@ -37,7 +37,14 @@ class Router{
         return $this;
     }
     
-
+    
+    /**
+     * Renome $router->generate en $router->url
+     *
+     * @param  string $name
+     * @param  array $params
+     * @return $router->generate
+     */
     public function url(string $name, array $params = [])
     {
         return $this->router->generate($name, $params);

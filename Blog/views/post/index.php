@@ -1,7 +1,6 @@
 <?php
 
 use App\Model\Post;
-use App\Helpers\Text;
 
 $title = "Mon blog";
 

@@ -35,6 +35,12 @@ class Post{
         return $this->slug;
     }
 
+        
+    /**
+     * Renvoie une partie du contenu de l'article ( 60 chars)
+     *
+     * @return string
+     */
     public function getExcerpt(): ?string
     {
         if($this->content === null){
