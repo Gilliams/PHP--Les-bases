@@ -37,6 +37,12 @@ class Router{
         return $this;
     }
     
+
+    public function url(string $name, array $params = [])
+    {
+        return $this->router->generate($name, $params);
+    }
+
     /**
      * Compare les données du router et ceux de l'url, définit la vue dans laquelle se trouve l'url
      *
@@ -46,6 +52,7 @@ class Router{
     {
         $match = $this->router->match();
         $view = $match['target'];
+        $router = $this;
         ob_start();
         require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
         $content = ob_get_clean();
