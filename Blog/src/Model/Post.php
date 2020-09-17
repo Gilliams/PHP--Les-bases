@@ -34,7 +34,11 @@ class Post{
     {
         return $this->slug;
     }
-
+    
+    public function getFormattedContent(): ? string
+    {
+        return nl2br(e($this->content));
+    }
         
     /**
      * Renvoie une partie du contenu de l'article ( 60 chars)
@@ -53,6 +57,7 @@ class Post{
     {
         return new DateTime($this->created_at);
     }
+
 
 
 }
