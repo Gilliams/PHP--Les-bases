@@ -1,11 +1,12 @@
 <?php
+
+use App\Connection;
+
 require dirname(__DIR__) . DIRECTORY_SEPARATOR .'vendor/autoload.php';
 
 $faker = Faker\Factory::create('fr_FR');
 
-$pdo = new PDO('mysql:dbname=blog-grafikart;host:127.0.0.1', 'phpG', 'grafikart', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
+$pdo = Connection::getPdo();
 
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
 $pdo->exec('TRUNCATE TABLE post_category');
