@@ -36,10 +36,12 @@ $query->setFetchMode(PDO::FETCH_CLASS, Category::class);
 /** @var Category[] */
 $categories = $query->fetchAll();
 
+$title = $post->getName();
+
 ?>
 
 
-<h1><?= e($post->getName()) ?></h1>
+<h1><?= e($title ) ?></h1>
 <p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
 <?php foreach($categories as $k => $category): ?>
     <?php if($k > 0): ?>

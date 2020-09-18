@@ -37,17 +37,9 @@ $posts = $query->fetchAll(PDO::FETCH_CLASS, Post::class);
             $link = $router->url('home');
             if($currentPage > 2) $link .= '?page=' . ($currentPage - 1);
         ?>
-        <a 
-            href="<?= $link ?>?page=<?= $currentPage -1 ?>"
-            class="btn btn-primary">
-            &laquo; Page précédente
-        </a>
+        <a  href="<?= $link ?>"class="btn btn-primary">&laquo; Page précédente</a>
     <?php endif ?>
     <?php if($currentPage < $pages): ?>
-        <a 
-            href="<?= $router->url('home') ?>?page=<?= $currentPage +1 ?>"
-            class="btn btn-primary ml-auto">
-            Page suivante &raquo;
-        </a>
+        <a href="<?= $router->url('home') ?>?page=<?= $currentPage +1 ?>"class="btn btn-primary ml-auto">Page suivante &raquo;</a>
     <?php endif ?>
 </div>
