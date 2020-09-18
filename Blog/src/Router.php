@@ -36,6 +36,19 @@ class Router{
         $this->router->map('GET', $url, $view, $name);
         return $this;
     }
+    /**
+     * Récupérer les infos de l'url en POST puis renvoie l'objet router afin d'enchainer les méthodes.
+     *
+     * @param  string $url
+     * @param  string $view
+     * @param  string-null  $name
+     * @return Router
+     */
+    public function post(string $url, string $view, ?string $name = null): self
+    {
+        $this->router->map('POST', $url, $view, $name);
+        return $this;
+    }
     
     
     /**
