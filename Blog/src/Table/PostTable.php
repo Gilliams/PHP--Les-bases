@@ -11,6 +11,19 @@ final class PostTable extends Table{
     protected $table = "post";
     protected $class = Post::class;
 
+
+    public function update(Post $post): void
+    {
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET name = :name WHERE id = :id");
+        $ok = $query->execute([
+            "id" => $post->getID(),
+            'name' => $post->getName()
+        ]);
+        if($ok === false){
+            throw new Exception("Impossible de supprimer l'enregistrement $post->getID() dans la table {$this->table}");
+        }
+    }
+
     public function delete(int $id)
     {
         $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ?");
