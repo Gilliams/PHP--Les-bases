@@ -22,12 +22,20 @@ $link = $router->url('admin_posts');
     </div>
 <?php endif ?>
 
+<?php if(isset($_GET['created'])): ?>
+    <div class="alert alert-success">
+        L'article a bien été ajouter
+    </div>
+<?php endif ?>
+
 <div class="row">
     <table class="table table-hover">
         <thead>
             <th scope="col">ID</th>
             <th scope="col">Titre</th>
-            <th scope="col">Actions</th>
+            <th scope="col">
+                <a href="<?= $router->url('admin_post_new')?>" class="btn btn-primary">Nouveau</a>
+            </th>
         </thead>
         <tbody>
             <?php foreach($posts as $post) :?>

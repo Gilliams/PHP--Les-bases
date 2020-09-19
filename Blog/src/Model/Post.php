@@ -33,6 +33,11 @@ class Post{
     {
         return $this->id;
     }
+    public function setID(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
     
     public function setName(string $name): self
     {
