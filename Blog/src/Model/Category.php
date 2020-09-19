@@ -8,7 +8,6 @@ class Category{
     private $slug;
     private $name;
     private $post_id;
-    private $post;
 
     public function getID(): ?int
     {
@@ -29,6 +28,21 @@ class Category{
     public function setPost(Post $post)
     {
         $this->post = $post;
+    }
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+    public function setID(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
 

@@ -3,9 +3,11 @@
 namespace App\Table;
 
 use PDO;
+use Exception;
 use App\Model\Category;
+use App\PaginatedQuery;
 
-final class CateogryTable extends Table{
+final class CategoryTable extends Table{
 
     protected $table = "category";
     protected $class = Category::class;
@@ -31,6 +33,21 @@ final class CateogryTable extends Table{
         foreach($categories as $category){
             $postsByID[$category->getPostID()]->addCategory($category);
         }
+    }
+
+    public function findPaginated()
+    {
+        $paginatedQuery = new PaginatedQuery(
+            "SELECT * FROM {$this->table} ORDER BY name DESC",
+            "SELECT COUNT(id) FROM {$this->table}",
+        );
+        $categories = $paginatedQuery->getItems(Category::class);
+        return [$categories, $paginatedQuery];
+    }
+
+    public function all (): array
+    {
+       return $this->queryAndFetchAll("SELECT * FROM {$this->table} ORDER BY id DESC");
     }
 
 }

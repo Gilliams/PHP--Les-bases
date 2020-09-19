@@ -11,43 +11,26 @@ final class PostTable extends Table{
     protected $table = "post";
     protected $class = Post::class;
 
-
-    public function create(Post $post): void
+    public function createPost(Post $post): void
     {
-        $query = $this->pdo->prepare("INSERT INTO {$this->table} SET name = :name, slug = :slug, created_at = :created, content = :content");
-        $ok = $query->execute([
+        $id = $this->create([
             'name' => $post->getName(),
             'slug' => $post->getSlug(),
             'content' => $post->getContent(),
-            'created' => $post->getCreatedAt()->format('Y-m-d H:i:s')
+            'created_at' => $post->getCreatedAt()->format('Y-m-d H:i:s')
         ]);
-        if($ok === false){
-            throw new Exception("Impossible de créer l'enregistrement $post->getID() dans la table {$this->table}");
-        }
-        $post->setID($this->pdo->lastInsertId());
+       
+        $post->setID($id);
     }
-    public function update(Post $post): void
+    public function updatePost(Post $post): void
     {
-        $query = $this->pdo->prepare("UPDATE {$this->table} SET name = :name, slug = :slug, created_at = :created, content = :content WHERE id = :id");
-        $ok = $query->execute([
+        $this->update([
             "id" => $post->getID(),
             'name' => $post->getName(),
             'slug' => $post->getSlug(),
             'content' => $post->getContent(),
-            'created' => $post->getCreatedAt()->format('Y-m-d H:i:s')
-        ]);
-        if($ok === false){
-            throw new Exception("Impossible de modifier l'enregistrement $post->getID() dans la table {$this->table}");
-        }
-    }
-
-    public function delete(int $id)
-    {
-        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ?");
-        $ok = $query->execute([$id]);
-        if($ok === false){
-            throw new Exception("Impossible de supprimer l'enregistrement $id dans la table {$this->table}");
-        }
+            'created_at' => $post->getCreatedAt()->format('Y-m-d H:i:s')
+        ], $post->getID());
     }
 
     public function findPaginated()
@@ -57,7 +40,7 @@ final class PostTable extends Table{
             "SELECT COUNT(id) FROM {$this->table}",
         );
         $posts = $paginatedQuery->getItems(Post::class);
-        (new CateogryTable($this->pdo))->hydratePosts($posts);
+        (new CategoryTable($this->pdo))->hydratePosts($posts);
         return [$posts, $paginatedQuery];
     }
 
@@ -72,7 +55,7 @@ final class PostTable extends Table{
             "SELECT COUNT(category_id) FROM post_category WHERE category_id =  {$categoryID}",
         );
         $posts = $paginatedQuery->getItems(Post::class);
-        (new CateogryTable($this->pdo))->hydratePosts($posts);
+        (new CategoryTable($this->pdo))->hydratePosts($posts);
         return [$posts, $paginatedQuery];
         
     }

@@ -2,17 +2,14 @@
 
 
 use App\Connection;
-use App\Model\Post;
-use App\Model\Category;
-use App\PaginatedQuery;
-use App\Table\CateogryTable;
+use App\Table\CategoryTable;
 use App\Table\PostTable;
 
 $id = (int)$params['id'];
 $slug = $params['slug'];
 
 $pdo = Connection::getPdo();
-$category = (new CateogryTable($pdo))->find($id);
+$category = (new CategoryTable($pdo))->find($id);
 
 
 if($category->getSlug() !== $slug){

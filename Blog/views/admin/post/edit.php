@@ -1,31 +1,34 @@
 <?php
 
+use App\Auth;
+use App\HTML\Form;
 use App\Connection;
 use App\ObjectHelper;
-use App\HTML\Form;
 use App\Table\PostTable;
 use App\Validators\PostValidator;
 
+Auth::check();
+
 $pdo = Connection::getPdo();
-$postTable = new PostTable($pdo);
-$post = $postTable->find($params['id']);
+$table = new PostTable($pdo);
+$item = $table->find($params['id']);
 $success = false;
 
 $errors = [];
 
 if( !empty($_POST)){
-    $v = new PostValidator($_POST, $postTable, $post->getID());
-    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'slug', 'created_at']);
+    $v = new PostValidator($_POST, $table, $item->getID());
+    ObjectHelper::hydrate($item, $_POST, ['name', 'content', 'slug', 'created_at']);
     
     if($v->validate()){
-        $postTable->update($post);
+        $table->updatePost($item);
         $success = true;
     }else{
         $errors = $v->errors();
     }
 }
 
-$form = new Form($post, $errors);
+$form = new Form($item, $errors);
 ?>
 
 <?php if($success): ?>
@@ -40,6 +43,6 @@ $form = new Form($post, $errors);
     </div>
 <?php endif ?>
 
-<h1>Editer l'article <?=e($post->getName()) ?></h1>
+<h1>Editer l'article <?=e($item->getName()) ?></h1>
 
 <?php require('_form.php')?>
