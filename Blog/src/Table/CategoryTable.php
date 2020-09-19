@@ -19,6 +19,7 @@ final class CategoryTable extends Table{
     {
         $postsByID = [];
         foreach($posts as $post){
+            $post->setCategories([]);
             $postsByID[$post->getID()] = $post;
         }
         
@@ -48,6 +49,16 @@ final class CategoryTable extends Table{
     public function all (): array
     {
        return $this->queryAndFetchAll("SELECT * FROM {$this->table} ORDER BY id DESC");
+    }
+
+    public function list ():array
+    {
+        $categories = $this->queryAndFetchAll("SELECT * FROM {$this->table} ORDER BY id DESC");
+        $results = [];
+        foreach($categories as $category){
+            $results[$category->getID()] = $category->getName();
+        }
+        return $results;
     }
 
 }
