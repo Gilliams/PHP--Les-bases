@@ -2,29 +2,36 @@
 
 use App\Connection;
 use App\Validator;
+use App\HTML\Form;
 use App\Table\PostTable;
+use App\Validators\PostValidator;
 
 $pdo = Connection::getPdo();
 $postTable = new PostTable($pdo);
 $post = $postTable->find($params['id']);
 $success = false;
 
+$errors = [];
+
 if( !empty($_POST)){
     Validator::lang('fr');
-    $validator = new Validator($_POST);
+    $v = new PostValidator($_POST, $postTable, $post->getID());
 
-    $validator->rule('required', 'name');
-    $validator->rule('lengthBetween', 'name', 3, 200);
+    $post
+        ->setName($_POST['name'])
+        ->setContent($_POST['content'])
+        ->setSlug($_POST['slug'])
+        ->setCreatedAt($_POST['created_at']);
 
-    $post->setName($_POST['name']);
-    if($validator->validate()){
+    if($v->validate()){
         $postTable->update($post);
         $success = true;
     }else{
-        $errors = $validator->errors();
+        $errors = $v->errors();
     }
 }
 
+$form = new Form($post, $errors);
 ?>
 
 <?php if($success): ?>
@@ -42,16 +49,11 @@ if( !empty($_POST)){
 <h1>Editer l'article <?=e($post->getName()) ?></h1>
 
 <form action="" method="Post">
-
-    <div class="form-group">
-        <label for="name">Titre</label>
-        <input type="text" class="form-control <?= $errors['name'] ? 'is-invalid' : '' ?>" name="name" value="<?= e($post->getName()) ?>" required>
-        <?php if(isset($errors['name'])) : ?>
-            <div class="invalid-feedback">
-                <?= implode('<br>', $errors['name']) ?>
-            </div>
-        <?php endif ?>
-    </div>
+    <?= $form->input('name', "Titre") ?>
+    <?= $form->input('slug', "URL") ?>
+    <?= $form->textarea('content', "Contenu") ?>
+    <?= $form->input('created_at', "Date de création") ?>
+    
     <button class="btn btn-primary">Modifier</button>
 
 </form>

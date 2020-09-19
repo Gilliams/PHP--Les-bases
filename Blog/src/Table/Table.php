@@ -2,8 +2,9 @@
 
 namespace App\Table;
 
-use Exception;
 use PDO;
+use Exception;
+use App\Table\Exception\NotFoundException;
 
 abstract class Table{
 
@@ -32,6 +33,27 @@ abstract class Table{
             throw new NotFoundException($this->table, $id);
         }
         return  $result;
+    }
+
+        
+    /**
+     * Verifie si une valeur existe dans la table
+     *
+     * @param  string $field Champs à rechercher
+     * @param  mixed $value Valeur associée au champ
+     * @return bool
+     */
+    public function exists(string $field, $value, ?int $except = null): bool
+    {
+        $sql = "SELECT COUNT(id) FROM {$this->table} WHERE $field = ?";
+        $params = [$value];
+        if($except !== null){
+            $sql .= " AND id != ?";
+            $params[] = $except;
+        }
+        $query = $this->pdo->prepare($sql);
+        $query->execute($params);
+        return (int)$query->fetch(PDO::FETCH_NUM)[0] > 0;
     }
 
 }

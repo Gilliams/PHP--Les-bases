@@ -19,27 +19,36 @@ class Post{
 
     private $categories = [];
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-        return $this;
-    }
     public function setContent(string $content): self
     {
         $this->content = $content;
         return $this;
     }
-
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+    
     public function getID(): ?int
     {
         return $this->id;
     }
-
+    
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+        return $this;
+    }
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -50,11 +59,7 @@ class Post{
         return nl2br(e($this->content));
     }
         
-    /**
-     * Renvoie une partie du contenu de l'article ( 60 chars)
-     *
-     * @return string
-     */
+    // Renvoie une partie du contenu de l'article ( 60 chars)
     public function getExcerpt(): ?string
     {
         if($this->content === null){
@@ -63,14 +68,17 @@ class Post{
         return nl2br(htmlentities(Text::excerpt($this->content, 60)));
     }
 
+    public function setCreatedAt(string $created_at): self
+    {
+        $this->created_at = $created_at;
+        return $this;
+    }
+
     public function getCreatedAt(): DateTime
     {
         return new DateTime($this->created_at);
     }
 
-    /**
-     * @return Category[]
-     */
     public function getCategories(): array
     {
         return $this->categories;
@@ -81,6 +89,5 @@ class Post{
         $this->categories[] = $category;
         $category->setPost($this);
     }
-
 
 }
