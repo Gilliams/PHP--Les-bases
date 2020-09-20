@@ -1,15 +1,15 @@
 <?php
 
 use App\Connection;
-use App\Table\CateogryTable;
 use App\Table\PostTable;
+use App\Table\CategoryTable;
 
 $id = (int)$params['id'];
 $slug = $params['slug'];
 
 $pdo = Connection::getPdo();
 $post = (new PostTable($pdo))->find($id);
-(new CateogryTable($pdo))->hydratePosts([$post]);
+(new CategoryTable($pdo))->hydratePosts([$post]);
 
 
 if($post->getSlug() !== $slug){
