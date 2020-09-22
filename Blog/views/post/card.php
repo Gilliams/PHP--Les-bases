@@ -6,6 +6,9 @@ $categories = array_map(function($category) use ($router){
 
 ?>
 <div class="card mb-3">
+    <?php if($post->getImage()): ?>
+        <img src="<?= $post->getImageURL('small') ?>" class="card-img-top" alt="Image de <?= $post->getName() ?>">
+    <?php endif; ?>
     <div class="card-body">
         <h5 class="card-title"><?= htmlentities($post->getName()) ?></h5>
         <p class="text-muted">

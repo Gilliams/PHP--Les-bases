@@ -8,6 +8,7 @@
         "symfony/var-dumper": "^5.1",
         "filp/whoops": "^2.7",
         "fzaninotto/faker": "^1.9",
-        "vlucas/valitron": "^1.4"
+        "vlucas/valitron": "^1.4",
+        "intervention/image": "^2.5"
     }
 }

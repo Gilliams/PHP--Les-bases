@@ -8,16 +8,14 @@ use App\Helpers\Text;
 class Post{
 
     private $id;
-
     private $name;
-
     private $slug;
-
     private $content;
-
     private $created_at;
-
     private $categories = [];
+    private $image;
+    private $oldImage;
+    private $pendingUpload = false;
 
     public function setContent(string $content): self
     {
@@ -107,6 +105,44 @@ class Post{
             $ids[] = $category->getID();
         }
         return $ids;
+    }
+
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage($image): self
+    {
+        if(is_array($image) && !empty($image['tmp_name'])){
+            if(!empty($this->image)){
+                $this->oldImage = $this->image;
+            }
+            $this->image = $image['tmp_name'];
+            $this->pendingUpload = true;
+        }
+        if(is_string($image) && !empty($image)){
+            $this->image = $image;
+        }
+        return $this;
+    }
+
+    public function getOldImage (): ?string
+    {
+        return $this->oldImage;
+    }
+    public function shouldUpload (): bool
+    {
+        return $this->pendingUpload;
+    }
+
+    public function getImageURL(string $format) : ?string
+    {
+        if(empty($this->image)){
+            return null;
+        }
+        return "/uploads/posts/" . $this->image ."_". $format .".jpg";
     }
 
 }

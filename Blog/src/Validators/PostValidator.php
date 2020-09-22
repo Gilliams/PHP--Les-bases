@@ -15,6 +15,8 @@ class PostValidator extends AbstractValidator{
             return !$table->exists($field, $value, $postID);
         }, ['slug', 'name'], "Cette valeur est déjà utilisée");
         $this->validator->rule('subset', 'categories_ids', array_keys($categories));
+        $this->validator->rule('image', 'image');
+
     }
 
 }
